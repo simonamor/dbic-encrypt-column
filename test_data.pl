@@ -34,11 +34,18 @@ if ($dh->version_storage_is_installed) {
 }
 
 my $resultset = $schema->resultset("Test");
+my $num = int(rand() * 50);
 my $new_test = $resultset->create({
     name => "Mr Test",
-    data => "Encrypt this!",
+    data => "Encrypt this! $num character padding:" . ("x" x $num),
 });
 
-print "name: ", $new_test->name, "\n";
-print "data: ", $new_test->data, "\n";
+print "== Writing record ", $new_test->id, "\n";
+print "write name: ", $new_test->name, "\n";
+print "write data: ", $new_test->data, "\n";
+
+print "== Fetching record ", $new_test->id, "\n";
+my $read_test = $resultset->find($new_test->id);
+print " read name: ", $read_test->name, "\n";
+print " read data: ", $read_test->data, "\n";
 
